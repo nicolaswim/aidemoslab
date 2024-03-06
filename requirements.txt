@@ -3,3 +3,6 @@ tranformers
 torch
 openai
 langchain-openai
+redis
+matplotlib
+streamlit
