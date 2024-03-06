@@ -6,3 +6,4 @@ langchain-openai
 redis
 matplotlib
 streamlit
+plotly
