@@ -47,57 +47,57 @@ class PostProcessing:
 
         st.plotly_chart(fig, use_container_width=True)
 
-    @staticmethod
-    def plot_spikey_circle_with_plotly(n):
-        # Number of points to draw the sphere
-        points = 1000
-        phi = np.linspace(0, np.pi, points)  # Azimuthal angle
-        theta = np.linspace(0, 2*np.pi, points)  # Polar angle
-        
-        # Base radius of the sphere
-        r_base = 1
-        
-        # Adjust these parameters to control the appearance of spikes
-        alpha = 0.1 * n  # Spike amplitude grows with n
-        k = n  # Spike frequency grows with n
-        
-        # Calculate the radius for each point
-        r = r_base + alpha * np.sin(k * phi)
-        
-        # Convert spherical coordinates to Cartesian coordinates for plotting
-        x = r * np.outer(np.sin(phi), np.cos(theta))
-        y = r * np.outer(np.sin(phi), np.sin(theta))
-        z = r * np.outer(np.cos(phi), np.ones_like(theta))
-        
-        fig = go.Figure()
-        fig.add_trace(go.Surface(x=x, y=y, z=z))
-        fig.update_layout(title_text='Spikey Sphere Plot (3D)', scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'))
-        st.plotly_chart(fig, use_container_width=True)
-
     # @staticmethod
     # def plot_spikey_circle_with_plotly(n):
-    #     # Number of points to draw the circle
+    #     # Number of points to draw the sphere
     #     points = 1000
-    #     theta = np.linspace(0, 2*np.pi, points)
+    #     phi = np.linspace(0, np.pi, points)  # Azimuthal angle
+    #     theta = np.linspace(0, 2*np.pi, points)  # Polar angle
         
-    #     # Base radius of the circle
+    #     # Base radius of the sphere
     #     r_base = 1
         
     #     # Adjust these parameters to control the appearance of spikes
-    #     alpha = 0.1 * n # Spike amplitude grows with n
-    #     k = n # Spike frequency grows with n
+    #     alpha = 0.1 * n  # Spike amplitude grows with n
+    #     k = n  # Spike frequency grows with n
         
     #     # Calculate the radius for each point
-    #     r = r_base + alpha * np.sin(k * theta)
+    #     r = r_base + alpha * np.sin(k * phi)
         
-    #     # Convert polar coordinates to Cartesian coordinates for plotting
-    #     x = r * np.cos(theta)
-    #     y = r * np.sin(theta)
+    #     # Convert spherical coordinates to Cartesian coordinates for plotting
+    #     x = r * np.outer(np.sin(phi), np.cos(theta))
+    #     y = r * np.outer(np.sin(phi), np.sin(theta))
+    #     z = r * np.outer(np.cos(phi), np.ones_like(theta))
         
     #     fig = go.Figure()
-    #     fig.add_trace(go.Scatter(x=x, y=y, mode='lines'))
-    #     fig.update_layout(title_text='Spikey Circle Plot', xaxis_title='X', yaxis_title='Y', xaxis=dict(scaleanchor="y", scaleratio=1))
+    #     fig.add_trace(go.Surface(x=x, y=y, z=z))
+    #     fig.update_layout(title_text='Spikey Sphere Plot (3D)', scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'))
     #     st.plotly_chart(fig, use_container_width=True)
+
+    @staticmethod
+    def plot_spikey_circle_with_plotly(n):
+        # Number of points to draw the circle
+        points = 1000
+        theta = np.linspace(0, 2*np.pi, points)
+        
+        # Base radius of the circle
+        r_base = 1
+        
+        # Adjust these parameters to control the appearance of spikes
+        alpha = 0.1 * n # Spike amplitude grows with n
+        k = n # Spike frequency grows with n
+        
+        # Calculate the radius for each point
+        r = r_base + alpha * np.sin(k * theta)
+        
+        # Convert polar coordinates to Cartesian coordinates for plotting
+        x = r * np.cos(theta)
+        y = r * np.sin(theta)
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines'))
+        fig.update_layout(title_text='Spikey Circle Plot', xaxis_title='X', yaxis_title='Y', xaxis=dict(scaleanchor="y", scaleratio=1))
+        st.plotly_chart(fig, use_container_width=True)
     
     @staticmethod
     def plot_spikey_circle_based_on_word_count(current_instance_word_count):

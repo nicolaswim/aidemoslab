@@ -1,5 +1,4 @@
 langchain
-torch
 openai
 langchain-openai
 redis
