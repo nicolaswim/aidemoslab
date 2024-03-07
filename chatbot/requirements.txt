@@ -1,5 +1,4 @@
 langchain
-tranformers
 torch
 openai
 langchain-openai
