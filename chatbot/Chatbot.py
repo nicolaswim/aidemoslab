@@ -9,7 +9,8 @@ import numpy as np
 
 
 # Initialize your OpenAI API key
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# openai.api_key = os.getenv('OPENAI_API_KEY')
+openai_key = st.secrets["openai_key"]
 
 class ChatBot:
     def __init__(self):
