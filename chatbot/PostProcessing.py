@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import plotly.graph_objects as go
 import numpy as np
-# from Chatbot import ChatBot
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap, Normalize
+from matplotlib.cm import ScalarMappable
 
 class PostProcessing:
     @staticmethod
@@ -73,50 +75,40 @@ class PostProcessing:
     #     fig.add_trace(go.Surface(x=x, y=y, z=z))
     #     fig.update_layout(title_text='Spikey Sphere Plot (3D)', scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'))
     #     st.plotly_chart(fig, use_container_width=True)
-
+    
     @staticmethod
     def plot_spikey_circle_with_plotly(frequency, n):
-        # Number of points to draw the circle
         points = 1000
         theta = np.linspace(0, 2 * np.pi, points)
-
-        # Base radius of the circle
         r_base = 1
-
-        # Adjust these parameters to control the appearance of spikes
-        alpha = 0.1 * n  # Spike amplitude grows with n
-        k = n  # Spike frequency grows with n
-
-        # Calculate the radius for each point with additional sinusoidal modulation
+        alpha = 0.1 * n
+        k = n
         r = r_base + alpha * np.sin(k * theta) + 0.1 * np.sin(frequency * theta)
 
-        # Convert polar coordinates to Cartesian coordinates for plotting
         x = r * np.cos(theta)
         y = r * np.sin(theta)
 
-        # Map n to a color in the Viridis colorscale
-        colorscale = 'Viridis'  # Feel free to change this to any Plotly colorscale
-        # Normalize n to a 0-1 range based on your expected n min/max values for the colorscale
-        n_normalized = n / 20 if n <= 20 else 1  # Assuming n ranges from 0 to 20
+        cdict = {
+            'red':   ((0.0, 0.0, 0.0), (0.5, 0.0, 0.0), (1.0, 1.0, 1.0)),
+            'green': ((0.0, 1.0, 1.0), (0.5, 0.0, 0.0), (1.0, 0.0, 0.0)),
+            'blue':  ((0.0, 0.0, 0.0), (0.5, 1.0, 1.0), (1.0, 0.0, 0.0))
+        }
+        custom_cmap = LinearSegmentedColormap('CustomCmap', segmentdata=cdict)
+        
+        # Color scale from green (n=0) to blue to red (n=20)
+        norm = Normalize(vmin=0, vmax=20)
+        mappable = ScalarMappable(norm=norm, cmap=custom_cmap)
+        color = mappable.to_rgba(n)
+        color = 'rgba({}, {}, {}, {})'.format(int(color[0]*255), int(color[1]*255), int(color[2]*255), color[3])
 
-        # Create the plot with Plotly
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Spikey Circle',
-                                line=dict(color=f'rgba({n_normalized}, {n_normalized}, {n_normalized})')))
-        fig.update_layout(title=f'Spikey Circle Plot - Frequency: {frequency}, n: {n}',
-                        xaxis_title='X',
-                        yaxis_title='Y',
-                        xaxis=dict(scaleanchor="y", scaleratio=1),
-                        yaxis=dict(autorange=True))
-        # Create the plot with Plotly
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Spikey Circle',
-                                line=dict(color=f'rgba({n_normalized}, {n_normalized}, {n_normalized})')))
-        fig.update_layout(title=f'Spikey Circle Plot - Frequency: {frequency}, n: {n}',
-                        xaxis_title='X',
-                        yaxis_title='Y',
-                        xaxis=dict(scaleanchor="y", scaleratio=1),
-                        yaxis=dict(autorange=True))
+                                 line=dict(color=color)))
+
+        fig.update_layout(title=f'Visual chat interpretation - Frequency: {frequency}, n: {n}',
+                          xaxis_title='X', yaxis_title='Y',
+                          xaxis=dict(scaleanchor="y", scaleratio=1), yaxis=dict(autorange=True))
+
         st.plotly_chart(fig, use_container_width=True)
     
     @staticmethod
@@ -132,6 +124,23 @@ class PostProcessing:
     def plot_spikey_circle_based_on_word_count(current_instance_word_count, total_word_count):
         tot = PostProcessing.custom_function(total_word_count)
         PostProcessing.plot_spikey_circle_with_plotly(current_instance_word_count, tot)
+
+    @staticmethod
+    def calculate_co2_emissions_deviation():
+        number_of_interactions = len(st.session_state['memory'])
+        current_co2_emissions = number_of_interactions * 4.32
+        previous_co2_emissions = (number_of_interactions - 1) * 4.32 if number_of_interactions > 0 else 0
+        deviation_co2_emissions = current_co2_emissions - previous_co2_emissions
+        return current_co2_emissions, deviation_co2_emissions
+
+    @staticmethod
+    def calculate_water_usage_deviation():
+        number_of_questions = len(st.session_state['memory'])
+        current_water_usage_ml = (number_of_questions / 20) * 500
+        previous_questions = number_of_questions - 1
+        previous_water_usage_ml = (previous_questions / 20) * 500 if previous_questions > 0 else 0
+        deviation_water_usage_ml = current_water_usage_ml - previous_water_usage_ml
+        return current_water_usage_ml, deviation_water_usage_ml
     
 
 

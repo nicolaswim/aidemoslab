@@ -34,6 +34,8 @@ def plot_spikey_circle_with_matplotlib(frequency, n):
     norm = Normalize(vmin=0, vmax=20)
     mappable = ScalarMappable(norm=norm, cmap=custom_cmap)
     color = mappable.to_rgba(n)
+
+    print(f'Color: {color}')
     
     # Create the plot
     plt.figure(figsize=(6,6))
