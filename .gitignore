@@ -1,2 +1,3 @@
 chatbot_env/
 .streamlit/
+chatbot/__pycache__/

@@ -1,7 +1,6 @@
-import numpy as np
-import matplotlib.pyplot as plt
 
-def draw_spikey_circle(n):
+import numpy as np
+def plot_spikey_circle_with_plotly(n):
     # Number of points to draw the circle
     points = 1000
     theta = np.linspace(0, 2*np.pi, points)
@@ -20,10 +19,7 @@ def draw_spikey_circle(n):
     x = r * np.cos(theta)
     y = r * np.sin(theta)
     
-    plt.figure(figsize=(6,6))
-    plt.plot(x, y)
-    plt.axis('equal') # Ensure the x and y axes have the same scale
-    plt.show()
-
-# Example usage
-draw_spikey_circle(40) # Change the input here to see different shapes
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines'))
+    fig.update_layout(title_text='Spikey Circle Plot', xaxis_title='X', yaxis_title='Y', xaxis=dict(scaleanchor="y", scaleratio=1))
+    st.plotly_chart(fig, use_container_width=True)

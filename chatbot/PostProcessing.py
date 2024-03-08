@@ -75,33 +75,63 @@ class PostProcessing:
     #     st.plotly_chart(fig, use_container_width=True)
 
     @staticmethod
-    def plot_spikey_circle_with_plotly(n):
+    def plot_spikey_circle_with_plotly(frequency, n):
         # Number of points to draw the circle
         points = 1000
-        theta = np.linspace(0, 2*np.pi, points)
-        
+        theta = np.linspace(0, 2 * np.pi, points)
+
         # Base radius of the circle
         r_base = 1
-        
+
         # Adjust these parameters to control the appearance of spikes
-        alpha = 0.1 * n # Spike amplitude grows with n
-        k = n # Spike frequency grows with n
-        
-        # Calculate the radius for each point
-        r = r_base + alpha * np.sin(k * theta)
-        
+        alpha = 0.1 * n  # Spike amplitude grows with n
+        k = n  # Spike frequency grows with n
+
+        # Calculate the radius for each point with additional sinusoidal modulation
+        r = r_base + alpha * np.sin(k * theta) + 0.1 * np.sin(frequency * theta)
+
         # Convert polar coordinates to Cartesian coordinates for plotting
         x = r * np.cos(theta)
         y = r * np.sin(theta)
-        
+
+        # Map n to a color in the Viridis colorscale
+        colorscale = 'Viridis'  # Feel free to change this to any Plotly colorscale
+        # Normalize n to a 0-1 range based on your expected n min/max values for the colorscale
+        n_normalized = n / 20 if n <= 20 else 1  # Assuming n ranges from 0 to 20
+
+        # Create the plot with Plotly
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines'))
-        fig.update_layout(title_text='Spikey Circle Plot', xaxis_title='X', yaxis_title='Y', xaxis=dict(scaleanchor="y", scaleratio=1))
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Spikey Circle',
+                                line=dict(color=f'rgba({n_normalized}, {n_normalized}, {n_normalized})')))
+        fig.update_layout(title=f'Spikey Circle Plot - Frequency: {frequency}, n: {n}',
+                        xaxis_title='X',
+                        yaxis_title='Y',
+                        xaxis=dict(scaleanchor="y", scaleratio=1),
+                        yaxis=dict(autorange=True))
+        # Create the plot with Plotly
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Spikey Circle',
+                                line=dict(color=f'rgba({n_normalized}, {n_normalized}, {n_normalized})')))
+        fig.update_layout(title=f'Spikey Circle Plot - Frequency: {frequency}, n: {n}',
+                        xaxis_title='X',
+                        yaxis_title='Y',
+                        xaxis=dict(scaleanchor="y", scaleratio=1),
+                        yaxis=dict(autorange=True))
         st.plotly_chart(fig, use_container_width=True)
     
     @staticmethod
-    def plot_spikey_circle_based_on_word_count(current_instance_word_count):
-        PostProcessing.plot_spikey_circle_with_plotly(current_instance_word_count)
+    def custom_function(x):
+        var = 10
+        x = x/50
+        if x <= var:
+            return x
+        else:
+            return var + (np.log(x-var-1) * 10)
+    
+    @staticmethod
+    def plot_spikey_circle_based_on_word_count(current_instance_word_count, total_word_count):
+        tot = PostProcessing.custom_function(total_word_count)
+        PostProcessing.plot_spikey_circle_with_plotly(current_instance_word_count, tot)
     
 
 

@@ -44,10 +44,7 @@ class StreamlitApp:
             st.write(f"Total word count: {total_word_count} | Current instance word count: 0")
 
         # Plot the spikey circle based on the current instance word count
-        PostProcessing.plot_spikey_circle_based_on_word_count(current_instance_word_count)
-
-        # Update and display the plot for word count
-        PostProcessing.update_word_count_plot()
+        PostProcessing.plot_spikey_circle_based_on_word_count(current_instance_word_count, total_word_count)
 
     def on_user_input_change(self):
         user_input = st.session_state['user_input']
