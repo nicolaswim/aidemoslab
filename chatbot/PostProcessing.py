@@ -142,6 +142,20 @@ class PostProcessing:
         deviation_water_usage_ml = current_water_usage_ml - previous_water_usage_ml
         return current_water_usage_ml, deviation_water_usage_ml
     
+    @staticmethod
+    def display_interaction_image():
+        interaction_count = len(st.session_state['memory']) + 1  # +1 to match question count including current
+        if interaction_count < 11:
+            image_path = f'images/river/{interaction_count}.png'
+            
+        else:
+            image_path = 'images/river/11.png'
+        
+        if os.path.exists(image_path):
+            st.image(image_path, caption='River View', use_column_width=True)
+        else:
+            st.write("Image not found.")
+    
 
 
 

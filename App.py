@@ -53,9 +53,21 @@ class StreamlitApp:
             with metric_col2:
                 st.metric(label="Current Interaction Words", value=current_instance_word_count, delta=deviation_word_count, delta_color="normal")
                 st.metric(label="Water Usage (ml)", value=f"{total_water_usage_ml}", delta=f"{deviation_water_usage_ml}")
-            
-        PostProcessing.plot_spikey_circle_based_on_word_count(current_instance_word_count, total_word_count)
+                # Adding an expander under the water metric with the provided text
+                
+            with st.expander("Water Usage Details"):
+                st.write("GPT-3 needs to “drink” (i.e., consume) a 500ml bottle of water for roughly 10-50 responses, depending on when and where it is deployed.")
+                citation = "Li, P., Yang, J., Islam, M. A., & Ren, S. (2023). Making AI less \"thirsty\": Uncovering and addressing the secret water footprint of AI models.\n*arXiv preprint* [arXiv:2304.03271](https://arxiv.org/abs/2304.03271)"
+                st.write(citation)
 
+        PostProcessing.display_interaction_image()
+        
+        # Load and display Markdown file
+        with open('waterinfo/waterinfo.md', 'r') as file:
+            markdown_text = file.read()
+            st.markdown(markdown_text)
+
+        # PostProcessing.plot_spikey_circle_based_on_word_count(current_instance_word_count, total_word_count)
 
     def on_user_input_change(self):
         user_input = st.session_state['user_input']
