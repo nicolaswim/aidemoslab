@@ -158,14 +158,16 @@ class PostProcessing:
     @staticmethod
     def display_interaction_image():
         interaction_count = len(st.session_state['memory']) + 1  # +1 to match question count including current
-        # Map every 6 interactions to one bottle image, cycle from 0 to 4 after the 5th image
-        image_index = ((interaction_count - 1) // 6) % 5   # Calculate which set of six interactions, then map to 1-5
-        image_path = f'images/bottle/{image_index}.png'
+        # Use interaction count directly to select the next image, cycling from 1 to 20
+        image_index = (interaction_count - 1) % 20 + 1  # Calculate the next image index
+        image_path = f'images/bottle/water_bottle-{image_index:02}.png'
         
         if os.path.exists(image_path):
             st.image(image_path, caption=f'Bottle View {image_index}', use_column_width=True)
         else:
             st.write("Image not found.")
+
+
 
     
 
