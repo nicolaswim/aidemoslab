@@ -130,3 +130,5 @@ only meets environmental standards but also fairly distributes benefits
 and risks across society [@rohde_broadening_2024]. This perspective
 shows the importance of moving from isolated technical fixes to broader
 societal changes.
+
+[Download aidemoslabwaterinfo.pdf](./aidemoslabwaterinfo.pdf)
