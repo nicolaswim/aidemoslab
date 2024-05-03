@@ -68,8 +68,7 @@ plants require water to cool the systems. This is the indirect usage of
 water [@ristic_water_2015].
 
 ![Simpliefied Datacenter Water Cooling
-[@noauthor_cooling_nodate]](dc_evaporative-cooling-system_0.jpg){#fig:enter-label
-width="\\linewidth"}
+[@noauthor_cooling_nodate]](../images/dc_evaporative-cooling-system_0.jpg)
 
 The researchers at *UC Riverside* and *UT Arlington* have highlighted
 the significant water footprint of AI models, emphasizing the urgent
