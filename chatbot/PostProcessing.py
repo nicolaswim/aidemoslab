@@ -163,7 +163,7 @@ class PostProcessing:
         image_path = f'images/bottle/water_bottle-{image_index:02}.png'
         
         if os.path.exists(image_path):
-            st.image(image_path, caption=f'Bottle View {image_index}', use_column_width=True)
+            st.image(image_path, caption=f'Water Usage', use_column_width=True)
         else:
             st.write("Image not found.")
 
