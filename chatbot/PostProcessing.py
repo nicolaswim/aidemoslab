@@ -142,19 +142,31 @@ class PostProcessing:
         deviation_water_usage_ml = current_water_usage_ml - previous_water_usage_ml
         return current_water_usage_ml, deviation_water_usage_ml
     
+    # @staticmethod
+    # def display_interaction_image():
+    #     interaction_count = len(st.session_state['memory']) + 1  # +1 to match question count including current
+    #     if interaction_count < 11:
+    #         image_path = f'images/river/{interaction_count}.png'
+            
+    #     else:
+    #         image_path = 'images/river/11.png'
+        
+    #     if os.path.exists(image_path):
+    #         st.image(image_path, caption='River View', use_column_width=True)
+    #     else:
+    #         st.write("Image not found.")
     @staticmethod
     def display_interaction_image():
         interaction_count = len(st.session_state['memory']) + 1  # +1 to match question count including current
-        if interaction_count < 11:
-            image_path = f'images/river/{interaction_count}.png'
-            
-        else:
-            image_path = 'images/river/11.png'
+        # Map every 6 interactions to one bottle image, cycle from 0 to 4 after the 5th image
+        image_index = ((interaction_count - 1) // 6) % 5   # Calculate which set of six interactions, then map to 1-5
+        image_path = f'images/bottle/{image_index}.png'
         
         if os.path.exists(image_path):
-            st.image(image_path, caption='River View', use_column_width=True)
+            st.image(image_path, caption=f'Bottle View {image_index}', use_column_width=True)
         else:
             st.write("Image not found.")
+
     
 
 
